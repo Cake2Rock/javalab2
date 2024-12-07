@@ -24,19 +24,27 @@ public class TextProcessor {
     private static StringBuilder swapFirstAndLastWord(String sentence) {
         StringBuilder sentenceBuilder = new StringBuilder(sentence.trim());
         String[] words = sentenceBuilder.toString().split("\\s+");
+
         if (words.length > 1) {
-            String firstWord = words[0];
-            String lastWord = words[words.length - 1];
+            String firstWord = words[0].replaceAll("[.!?]", "");
+            String lastWord = words[words.length - 1].replaceAll("[.!?]", "");
+
             words[0] = lastWord;
             words[words.length - 1] = firstWord;
         }
+
         StringBuilder modifiedSentence = new StringBuilder();
-        for (String word : words) {
-            modifiedSentence.append(word).append(" ");
+        for (int i = 0; i < words.length; i++) {
+            modifiedSentence.append(words[i]);
+            if (i < words.length - 1) {
+                modifiedSentence.append(" ");
+            }
         }
+
         if (sentence.endsWith(".") || sentence.endsWith("!") || sentence.endsWith("?")) {
-            modifiedSentence.setCharAt(modifiedSentence.length() - 1, sentence.charAt(sentence.length() - 1));
+            modifiedSentence.append(sentence.charAt(sentence.length() - 1));
         }
+
         return new StringBuilder(modifiedSentence.toString().trim());
     }
 }
